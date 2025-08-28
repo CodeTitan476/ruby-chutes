@@ -48,4 +48,19 @@ module GameConfig
   ALLOW_OVERSHOOT = false  # Must land exactly on 100 to win
   MAX_DICE_ROLL = 6
   MIN_DICE_ROLL = 1
+  
+  # Game speed settings (in seconds)
+  GAME_SPEED = {
+    WELCOME_DELAY: 2,        # Delay after welcome message
+    RULES_DELAY: 2,          # Delay after showing rules
+    TURN_HEADER_DELAY: 1,    # Delay after turn header
+    PLAYER_TURN_DELAY: 1,    # Delay between player turns
+    DICE_ROLL_DELAY: 1,      # Delay after dice roll
+    MOVE_DELAY: 1,           # Delay after player moves
+    SPECIAL_SQUARE_DELAY: 1, # Delay after special square events
+    POSITIONS_DELAY: 2,      # Delay after showing positions
+    GAME_OVER_DELAY: 2,      # Delay before game over
+    WIN_DELAY: 1,            # Delay after someone wins
+    TURN_START_DELAY: 0.5    # Delay at start of each turn
+  }
 end

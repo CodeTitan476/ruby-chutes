@@ -10,26 +10,36 @@ class Game
   
   def play
     display_welcome_message
+    wait(GameConfig::GAME_SPEED[:WELCOME_DELAY])
     display_rules
+    wait(GameConfig::GAME_SPEED[:RULES_DELAY])
     
     loop do
       display_turn_header
+      wait(GameConfig::GAME_SPEED[:TURN_HEADER_DELAY])
       
       @players.each do |player|
         next if player.won?
         
         if take_turn(player)
+          wait(GameConfig::GAME_SPEED[:GAME_OVER_DELAY])
           display_game_over
           return
         end
+        wait(GameConfig::GAME_SPEED[:PLAYER_TURN_DELAY])
       end
       
       display_positions if GameConfig::SHOW_POSITIONS_AFTER_EACH_TURN
+      wait(GameConfig::GAME_SPEED[:POSITIONS_DELAY])
       @turn_number += 1
     end
   end
   
   private
+  
+  def wait(seconds)
+    sleep(seconds)
+  end
   
   def display_welcome_message
     puts "\n🎮 Welcome to Chutes and Ladders! 🎮"
@@ -55,21 +65,28 @@ class Game
   
   def take_turn(player)
     puts "\n👤 #{player.name}'s turn (Position: #{player.position})"
+    wait(GameConfig::GAME_SPEED[:TURN_START_DELAY])
     
     dice_roll = Dice.roll
+    wait(GameConfig::GAME_SPEED[:DICE_ROLL_DELAY])
+    
     new_position = player.position + dice_roll
     
     if new_position > GameConfig::WINNING_POSITION
       puts "❌ #{player.name} rolled too high! Need exactly #{GameConfig::WINNING_POSITION - player.position} to win."
       puts "📍 #{player.name} stays at position #{player.position}"
+      wait(GameConfig::GAME_SPEED[:MOVE_DELAY])
       return false
     end
     
     player.move(dice_roll)
+    wait(GameConfig::GAME_SPEED[:MOVE_DELAY])
     handle_special_square(player)
+    wait(GameConfig::GAME_SPEED[:SPECIAL_SQUARE_DELAY])
     
     if player.won?
       puts "🎉 #{player.name} WINS! 🎉"
+      wait(GameConfig::GAME_SPEED[:WIN_DELAY])
       return true
     end
     
